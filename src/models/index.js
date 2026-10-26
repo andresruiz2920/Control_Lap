@@ -15,4 +15,5 @@ const Room = {
 module.exports = {
   User,
   Room,
+  loan
 };
