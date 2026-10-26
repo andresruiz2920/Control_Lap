@@ -1,4 +1,4 @@
-export interface ICreateRoomDTO {
+export interface ICreateDashboardDTO {
   Totalsalas: number;
   Totaldispositivos: number;
   Disonibles: number;
