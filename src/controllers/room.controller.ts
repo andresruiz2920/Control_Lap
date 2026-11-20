@@ -1,58 +1,64 @@
 import { Request, Response } from 'express';
-import { roomService } from '../container';
+import { userService } from '../container';
 import { DomainError } from '../errors/domain.errors';
 import { ICreateRoomDTO, EstadoSala } from '../dtos/room.dto';
 
-export class RoomController {
-  public static createRoom = async (
+export class UserController {
+  public static createUser = async (
     req: Request<Record<string, string>, unknown, ICreateRoomDTO>,
     res: Response
   ): Promise<void> => {
-    const room = await roomService.createRoom(req.body);
-    res.status(201).json({ success: true, data: room });
+    const Room = await roomService.createRoom(req.body);
+    res.status(201).json({ success: true, data: user });
   };
 
-  public static getRoomsByFilter = async (
+  public static getUsersByFilter = async (
     req: Request,
     res: Response
   ): Promise<void> => {
-    const { bloque, estado } = req.query;
+    const { rol, activo } = req.query;
 
-    if (bloque !== undefined && typeof bloque !== 'string') {
+    if (rol !== undefined && typeof rol !== 'string') {
       throw new DomainError(
         'VALIDATION_ERROR',
-        'El filtro bloque debe ser un texto.'
+        'El filtro rol debe ser un texto.'
       );
     }
-    if (estado !== undefined && typeof estado !== 'string') {
+    if (activo !== undefined && activo !== 'true' && activo !== 'false') {
       throw new DomainError(
         'VALIDATION_ERROR',
-        'El filtro estado debe ser un texto.'
+        'El filtro activo debe ser "true" o "false".'
       );
     }
 
-    const rooms = await roomService.getRooms({ 
-      bloque, 
-      estado: estado as EstadoSala 
+    const users = await userService.getUsers({
+      rol: rol?.toUpperCase() as Rol | undefined,
+      activo: activo === undefined ? undefined : activo === 'true'
     });
-    
-    res.status(200).json({ success: true, data: rooms });
+    res.status(200).json({ success: true, data: users });
   };
 
-  public static getRoomById = async (
+  public static getUserById = async (
     req: Request<{ id: string }>,
     res: Response
   ): Promise<void> => {
-    const room = await roomService.getRoomDetail(req.params.id);
-    res.status(200).json({ success: true, data: room });
+    const user = await userService.getUserDetail(req.params.id);
+    res.status(200).json({ success: true, data: user });
   };
 
-  public static changeRoomEstado = async (
-    req: Request<{ id: string }, unknown, { estado: EstadoSala }>,
+  public static activateUser = async (
+    req: Request<{ id: string }>,
     res: Response
   ): Promise<void> => {
-    const { estado } = req.body;
-    const room = await roomService.changeEstado(req.params.id, estado);
-    res.status(200).json({ success: true, data: room });
+    const user = await userService.activateUser(req.params.id);
+    res.status(200).json({ success: true, data: user });
+  };
+
+  public static deactivateUser = async (
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<void> => {
+    const user = await userService.deactivateUser(req.params.id);
+    res.status(200).json({ success: true, data: user });
   };
 }

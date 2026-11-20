@@ -63,7 +63,7 @@ export const validatedevicePayload = (
   if (!isCreateDeviceDTO(body)) {
     res.status(400).json({
       success: false,
-      error: 'Datos del dispositivo inválidos o incompletos.'
+      error: 'Datos del dispositivo inválidos o incompleto.'
     });
     return;
   }

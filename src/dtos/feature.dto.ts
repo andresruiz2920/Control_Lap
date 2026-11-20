@@ -1,29 +1,11 @@
-export enum PrioridadReporte {
-  BAJA = 'BAJA',
-  MEDIA = 'MEDIA',
-  ALTA = 'ALTA'
-}
-
-export enum EstadoReporte {
-  PENDIENTE = 'PENDIENTE',
-  EN_PROCESO = 'EN_PROCESO',
-  RESUELTA = 'RESUELTA'
-}
-
-export interface Feature {
-  id: string;
-  equipmentId: string;
-  reportedBy: string;
-  descripcion: string;
-  prioridad: PrioridadReporte;
-  estado: EstadoReporte;
-  createdAt: string;
-}
+export type PrioridadReporte = 
+'BAJA' | 'MEDIA' | 'ALTA';
+export type EstadoReporte = 'PENDIENTE' | 'EN_PROCESO' | 'RESUELTA';
 
 export interface ICreateFeatureDTO {
-  equipmentId: string;
-  reportedBy: string;
+  equipmentId: string; // UUID
+  reportedBy: string; // UUID
   descripcion: string;
   prioridad: PrioridadReporte;
-  estado?: EstadoReporte;
+  estado?: EstadoReporte; // Opcional, por defecto 'PENDIENTE' en BD
 }
