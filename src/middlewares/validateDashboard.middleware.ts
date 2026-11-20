@@ -50,7 +50,7 @@ export const validateDashboardPayload = (
   if (!isCreateDashboardDTO(body)) {
     res.status(400).json({
       success: false,
-      error: 'Datos del dashboard inválidos o incompletos.'
+      error: 'Datos del dashboard inválidos o incompleto.'
     });
     return;
   }
