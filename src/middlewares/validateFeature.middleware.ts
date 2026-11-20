@@ -51,7 +51,7 @@ export const validateIncidentPayload = (
   if (!isCreateIncidentDTO(body)) {
     res.status(400).json({
       success: false,
-      error: 'Datos de la incidencia inválidos o incompletos.'
+      error: 'Datos de la incidencia inválidos o incompleto.'
     });
     return;
   }
